@@ -1,0 +1,111 @@
+.hero {
+  min-height: 100vh;
+  background-color: var(--color-background);
+  display: flex;
+  align-items: center;
+  padding-top: 72px;
+
+  &__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-margin);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+    width: 100%;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  &__eyebrow {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-on-background);
+  }
+
+  &__subtext {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-on-surface-variant);
+    max-width: 480px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  &__image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__image-placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: 600px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-on-surface-variant);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+
+  &--primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+
+    &:hover {
+      background-color: var(--color-primary-dark);
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    color: var(--color-on-background);
+    border-color: currentColor;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
