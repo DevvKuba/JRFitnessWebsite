@@ -1,0 +1,193 @@
+@if (!submitted) {
+  <div class="apply">
+    <div class="apply__header">
+      <p class="apply__label">Start Your Journey</p>
+      <h1 class="apply__headline">Apply for Coaching</h1>
+      <p class="apply__subtext">
+        Fill in the form below and I'll be in touch within 48 hours with your next steps.
+      </p>
+    </div>
+
+    <div class="apply__form-wrapper">
+      <form class="apply__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Coaching Type -->
+        <div class="apply__section">
+          <h2 class="apply__section-title">What are you applying for?</h2>
+          <div class="form-field">
+            <label class="form-label" for="coachingType">Coaching Type <span class="form-required">*</span></label>
+            <select class="form-select" [class.error]="isInvalid('coachingType')" id="coachingType" formControlName="coachingType">
+              <option value="" disabled>Select a programme</option>
+              <option value="online">Online Coaching</option>
+              <option value="in-person">In-Person Training</option>
+              <option value="hybrid">Hybrid Coaching</option>
+            </select>
+            @if (isInvalid('coachingType')) {
+              <span class="form-error">Please select a coaching type</span>
+            }
+          </div>
+        </div>
+
+        <!-- Personal Details -->
+        <div class="apply__section">
+          <h2 class="apply__section-title">Personal Details</h2>
+          <div class="apply__grid">
+            <div class="form-field">
+              <label class="form-label" for="fullName">Full Name <span class="form-required">*</span></label>
+              <input class="form-input" [class.error]="isInvalid('fullName')" type="text" id="fullName" formControlName="fullName" placeholder="Jane Smith" />
+              @if (isInvalid('fullName')) {
+                <span class="form-error">Full name is required</span>
+              }
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="email">Email Address <span class="form-required">*</span></label>
+              <input class="form-input" [class.error]="isInvalid('email')" type="email" id="email" formControlName="email" placeholder="jane@example.com" />
+              @if (isInvalid('email')) {
+                <span class="form-error">A valid email address is required</span>
+              }
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="phone">Phone Number <span class="form-required">*</span></label>
+              <input class="form-input" [class.error]="isInvalid('phone')" type="tel" id="phone" formControlName="phone" placeholder="+44 7700 000000" />
+              @if (isInvalid('phone')) {
+                <span class="form-error">Phone number is required</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Fitness Background -->
+        <div class="apply__section">
+          <h2 class="apply__section-title">Your Fitness Background</h2>
+          <div class="apply__grid">
+            <div class="form-field">
+              <label class="form-label" for="goal">Primary Goal <span class="form-required">*</span></label>
+              <select class="form-select" [class.error]="isInvalid('goal')" id="goal" formControlName="goal">
+                <option value="" disabled>Select your goal</option>
+                <option value="fat-loss">Fat Loss</option>
+                <option value="muscle-gain">Muscle Gain</option>
+                <option value="recomposition">Body Recomposition</option>
+                <option value="general-fitness">General Fitness</option>
+                <option value="other">Other</option>
+              </select>
+              @if (isInvalid('goal')) {
+                <span class="form-error">Please select your primary goal</span>
+              }
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="fitnessLevel">Current Fitness Level <span class="form-required">*</span></label>
+              <select class="form-select" [class.error]="isInvalid('fitnessLevel')" id="fitnessLevel" formControlName="fitnessLevel">
+                <option value="" disabled>Select your level</option>
+                <option value="beginner">Beginner — Little to no training experience</option>
+                <option value="intermediate">Intermediate — Training for 1–2 years</option>
+                <option value="advanced">Advanced — Training seriously for 3+ years</option>
+              </select>
+              @if (isInvalid('fitnessLevel')) {
+                <span class="form-error">Please select your fitness level</span>
+              }
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="injuries">Injuries or Limitations</label>
+            <textarea class="form-textarea" id="injuries" formControlName="injuries" rows="3"
+              placeholder="List any injuries, medical conditions, or physical limitations I should know about. Leave blank if none."></textarea>
+          </div>
+        </div>
+
+        <!-- Conditional: Online / Hybrid -->
+        @if (showEquipment) {
+          <div class="apply__section apply__section--conditional">
+            <h2 class="apply__section-title">Training Setup</h2>
+            <div class="form-field">
+              <label class="form-label" for="equipment">Equipment Access <span class="form-required">*</span></label>
+              <select class="form-select" [class.error]="isInvalid('equipment')" id="equipment" formControlName="equipment">
+                <option value="" disabled>Select your setup</option>
+                <option value="commercial-gym">Commercial gym membership</option>
+                <option value="home-gym">Home gym (full equipment)</option>
+                <option value="minimal">Minimal equipment (dumbbells, bands, etc.)</option>
+                <option value="none">No equipment — bodyweight only</option>
+              </select>
+              @if (isInvalid('equipment')) {
+                <span class="form-error">Please select your equipment access</span>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Conditional: In-Person / Hybrid -->
+        @if (showLocationDays) {
+          <div class="apply__section apply__section--conditional">
+            <h2 class="apply__section-title">Scheduling & Location</h2>
+            <div class="apply__grid">
+              <div class="form-field">
+                <label class="form-label" for="preferredDays">Preferred Training Days <span class="form-required">*</span></label>
+                <select class="form-select" [class.error]="isInvalid('preferredDays')" id="preferredDays" formControlName="preferredDays">
+                  <option value="" disabled>Select your preference</option>
+                  <option value="weekdays">Weekdays</option>
+                  <option value="weekends">Weekends</option>
+                  <option value="flexible">Flexible</option>
+                </select>
+                @if (isInvalid('preferredDays')) {
+                  <span class="form-error">Please select your preferred training days</span>
+                }
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="trainingLocation">Your General Location <span class="form-required">*</span></label>
+                <input class="form-input" [class.error]="isInvalid('trainingLocation')" type="text" id="trainingLocation" formControlName="trainingLocation" placeholder="e.g. Colliers Wood, London" />
+                @if (isInvalid('trainingLocation')) {
+                  <span class="form-error">Please enter your general location</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Referral -->
+        <div class="apply__section">
+          <div class="form-field">
+            <label class="form-label" for="referral">How did you hear about JR Fitness? <span class="form-required">*</span></label>
+            <select class="form-select" [class.error]="isInvalid('referral')" id="referral" formControlName="referral">
+              <option value="" disabled>Select an option</option>
+              <option value="instagram">Instagram</option>
+              <option value="facebook">Facebook</option>
+              <option value="word-of-mouth">Word of Mouth</option>
+              <option value="google">Google</option>
+              <option value="other">Other</option>
+            </select>
+            @if (isInvalid('referral')) {
+              <span class="form-error">Please let us know how you found us</span>
+            }
+          </div>
+        </div>
+
+        @if (hasError) {
+          <p class="apply__submit-error">
+            Something went wrong — please try again or reach out directly at
+            <a href="mailto:jrfitnessinbox@gmail.com">jrfitnessinbox&#64;gmail.com</a>.
+          </p>
+        }
+
+        <button class="apply__submit" type="submit" [disabled]="submitting">
+          {{ submitting ? 'Submitting...' : 'Submit Application' }}
+        </button>
+
+      </form>
+    </div>
+  </div>
+} @else {
+  <div class="apply apply--success">
+    <div class="apply__success">
+      <div class="apply__success-icon">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="var(--color-primary)" stroke-width="1.5"/>
+          <path d="M8 12l3 3 5-5" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="apply__success-headline">Application Received</h1>
+      <p class="apply__success-text">
+        Thanks for applying — I'll review your details and be in touch within 48 hours with your next steps.
+      </p>
+      <a class="apply__back" [routerLink]="['/']">Back to Home</a>
+    </div>
+  </div>
+}
