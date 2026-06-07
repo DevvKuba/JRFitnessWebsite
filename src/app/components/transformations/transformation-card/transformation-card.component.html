@@ -1,0 +1,25 @@
+<article class="t-card">
+  <div class="t-card__images">
+    <div class="t-card__image-wrap">
+      <span class="t-card__image-label">Before</span>
+      @if (transformation.beforeImage) {
+        <img class="t-card__image" [src]="transformation.beforeImage" alt="Before" />
+      } @else {
+        <div class="t-card__image-placeholder"></div>
+      }
+    </div>
+    <div class="t-card__image-wrap">
+      <span class="t-card__image-label">After</span>
+      @if (transformation.afterImage) {
+        <img class="t-card__image" [src]="transformation.afterImage" alt="After" />
+      } @else {
+        <div class="t-card__image-placeholder"></div>
+      }
+    </div>
+    <span class="t-card__duration">{{ transformation.duration }}</span>
+  </div>
+
+  <blockquote class="t-card__testimonial">
+    "{{ transformation.testimonial }}"
+  </blockquote>
+</article>

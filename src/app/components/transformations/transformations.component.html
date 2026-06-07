@@ -1,0 +1,46 @@
+<section class="transformations">
+  <div class="transformations__inner">
+
+    <div class="transformations__header">
+      <p class="transformations__label">Client Results</p>
+      <h2 class="transformations__headline">Real People.<br />Real Results.</h2>
+      <p class="transformations__intro">
+        Every transformation below started with a single decision to commit.
+        Here's what happens when the right programme meets the right mindset.
+      </p>
+    </div>
+
+    <div class="transformations__carousel-wrapper">
+      @if (hasOverflow) {
+        <button
+          class="transformations__arrow transformations__arrow--prev"
+          (click)="scrollPrev()"
+          aria-label="Previous clients"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
+
+      <div class="transformations__track" #track>
+        @for (t of transformations; track $index) {
+          <app-transformation-card [transformation]="t" />
+        }
+      </div>
+
+      @if (hasOverflow) {
+        <button
+          class="transformations__arrow transformations__arrow--next"
+          (click)="scrollNext()"
+          aria-label="Next clients"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+
+  </div>
+</section>
