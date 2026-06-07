@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HeroComponent } from './components/hero/hero.component';
 import { MethodologyComponent } from './components/methodology/methodology.component';
@@ -12,4 +13,8 @@ import { FooterComponent } from './components/footer/footer.component';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {}
+export class App {
+  constructor(scroller: ViewportScroller) {
+    scroller.setOffset([0, 80]);
+  }
+}
