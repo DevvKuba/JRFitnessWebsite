@@ -1,0 +1,116 @@
+.footer {
+  background-color: #e8ecf8;
+  color: var(--color-on-background);
+
+  &__upper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-margin);
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: var(--space-lg);
+    align-items: stretch;
+  }
+
+  &__map {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    min-height: 360px;
+  }
+
+  &__map-iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    border: none;
+    display: block;
+    filter: grayscale(10%) contrast(1.02);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    justify-content: center;
+  }
+
+  &__brand {
+    font-family: var(--font-headline);
+    font-size: 2.5rem;
+    letter-spacing: 0.06em;
+    color: var(--color-on-background);
+    line-height: 1;
+  }
+
+  &__tagline {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-on-surface-variant);
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--space-sm);
+    border-top: 1px solid #c8cde8;
+  }
+
+  &__contact-link {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-on-background);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  &__socials {
+    display: flex;
+    gap: var(--space-md);
+    padding-top: var(--space-sm);
+  }
+
+  &__social-link {
+    color: var(--color-on-surface-variant);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  &__lower {
+    border-top: 1px solid #c8cde8;
+    padding: var(--space-md) var(--space-margin);
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__copy {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-on-surface-variant);
+  }
+
+  &__logo-small {
+    font-family: var(--font-headline);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    color: var(--color-on-surface-variant);
+  }
+}
