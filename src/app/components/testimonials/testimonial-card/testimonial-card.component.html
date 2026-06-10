@@ -1,0 +1,15 @@
+<article class="tc-card">
+  <div class="tc-card__media">
+    @if (testimonial.videoSrc) {
+      <video class="tc-card__video" [poster]="testimonial.posterImage" controls playsinline>
+        <source [src]="testimonial.videoSrc" type="video/mp4" />
+      </video>
+    } @else {
+      <div class="tc-card__placeholder"></div>
+    }
+  </div>
+  <div class="tc-card__attribution">
+    <p class="tc-card__name">{{ testimonial.clientName }}</p>
+    <p class="tc-card__programme">{{ testimonial.programme }}</p>
+  </div>
+</article>

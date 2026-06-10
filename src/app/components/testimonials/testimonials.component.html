@@ -1,0 +1,46 @@
+<section id="testimonials" class="testimonials">
+  <div class="testimonials__inner">
+
+    <div class="testimonials__header">
+      <p class="testimonials__label">In Their Words</p>
+      <h2 class="testimonials__headline">Hear It<br />From Them.</h2>
+      <p class="testimonials__intro">
+        Numbers tell part of the story — here's the rest, straight from the
+        people who lived it.
+      </p>
+    </div>
+
+    <div class="testimonials__carousel-wrapper">
+      @if (hasOverflow) {
+        <button
+          class="testimonials__arrow testimonials__arrow--prev"
+          (click)="scrollPrev()"
+          aria-label="Previous testimonials"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
+
+      <div class="testimonials__track" #track>
+        @for (t of testimonials; track $index) {
+          <app-testimonial-card [testimonial]="t" />
+        }
+      </div>
+
+      @if (hasOverflow) {
+        <button
+          class="testimonials__arrow testimonials__arrow--next"
+          (click)="scrollNext()"
+          aria-label="Next testimonials"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+
+  </div>
+</section>
