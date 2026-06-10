@@ -16,34 +16,45 @@
         <div class="offerings__card-header">
           <h3 class="offerings__card-title">Online Coaching</h3>
           <p class="offerings__card-subtitle">
-            Full programme delivery via app. Train anywhere, on your schedule.
+            Remote coaching built around real accountability — train on your schedule, wherever you are.
           </p>
         </div>
+        <div class="offerings__card-pricing">
+          <span class="offerings__card-price">£180</span>
+          <span class="offerings__card-price-period">/month</span>
+        </div>
         <ul class="offerings__card-features">
-          <li>Custom training plan</li>
-          <li>Weekly check-ins</li>
-          <li>Progress tracking</li>
+          <li>Step Up accountability — private group & leaderboard</li>
+          <li>Custom training plan via Hevy app</li>
+          <li>Weekly check-ins & plan adjustments</li>
           <li>Nutrition guidance</li>
           <li>Video form reviews</li>
+          <li>Messaging support between check-ins</li>
         </ul>
+        <p class="offerings__card-pricing-note">3 months — £495 · 6 months — £950 (best value)</p>
         <a class="btn btn--outline" [routerLink]="['/apply']" [queryParams]="{type: 'online'}">Apply Now</a>
       </div>
 
       <div class="offerings__card offerings__card--featured">
         <div class="offerings__card-badge">Most Popular</div>
         <div class="offerings__card-header">
-          <h3 class="offerings__card-title">In-Person Training</h3>
+          <h3 class="offerings__card-title">In-Person Coaching</h3>
           <p class="offerings__card-subtitle">
-            One-on-one sessions with hands-on coaching and real-time feedback.
+            One-to-one sessions with hands-on coaching, real-time feedback and programming built around you.
           </p>
         </div>
+        <div class="offerings__card-pricing">
+          <span class="offerings__card-price">£55</span>
+          <span class="offerings__card-price-period">/session</span>
+        </div>
         <ul class="offerings__card-features">
-          <li>Personalised session programming</li>
-          <li>Hands-on form correction</li>
+          <li>Tailored 1:1 programming</li>
+          <li>Real-time form coaching & technique correction</li>
+          <li>Progress reviews & programme adjustments</li>
           <li>Flexible scheduling</li>
-          <li>Progress assessments</li>
-          <li>Nutrition & lifestyle support</li>
+          <li>Direct contact between sessions</li>
         </ul>
+        <p class="offerings__card-pricing-note">Pay per session — no long-term commitment</p>
         <a class="btn btn--primary" [routerLink]="['/apply']" [queryParams]="{type: 'in-person'}">Apply Now</a>
       </div>
 
@@ -51,16 +62,21 @@
         <div class="offerings__card-header">
           <h3 class="offerings__card-title">Hybrid Coaching</h3>
           <p class="offerings__card-subtitle">
-            Combination of online coaching with in-person sessions.
+            Online coaching plus one in-person session a month — accountability with hands-on support.
           </p>
         </div>
+        <div class="offerings__card-pricing">
+          <span class="offerings__card-price">£220</span>
+          <span class="offerings__card-price-period">/month</span>
+        </div>
         <ul class="offerings__card-features">
-          <li>Custom training plan</li>
-          <li>Monthly in-person sessions</li>
-          <li>Weekly online check-ins</li>
-          <li>Video form reviews</li>
-          <li>Nutrition & lifestyle support</li>
+          <li>Everything in Online Coaching</li>
+          <li>One in-person 1:1 session per month</li>
+          <li>Form audit & technique reset</li>
+          <li>Priority messaging support</li>
+          <li>In-person progress assessments</li>
         </ul>
+        <p class="offerings__card-pricing-note">3 months — £600 (commit and save)</p>
         <a class="btn btn--outline" [routerLink]="['/apply']" [queryParams]="{type: 'hybrid'}">Apply Now</a>
       </div>
 
