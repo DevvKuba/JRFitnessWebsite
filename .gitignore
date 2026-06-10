@@ -39,6 +39,12 @@ testem.log
 /typings
 __screenshots__/
 
+# Environment variables
+.env
+
+# Netlify
+.netlify
+
 # System files
 .DS_Store
 Thumbs.db

@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './apply.component.scss',
 })
 export class ApplyComponent implements OnInit {
-  private readonly SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+  private readonly SCRIPT_URL = '/.netlify/functions/submit-application';
 
   submitted = false;
   submitting = false;
