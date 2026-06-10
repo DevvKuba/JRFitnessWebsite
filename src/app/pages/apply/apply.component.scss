@@ -3,6 +3,28 @@
   background-color: var(--color-background);
   padding-top: 72px;
 
+  &__nav {
+    padding: var(--space-md) var(--space-margin) 0;
+  }
+
+  &__home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-on-surface-variant);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
   &__header {
     background-color: var(--color-surface);
     padding: var(--space-xl) var(--space-margin);
@@ -81,6 +103,17 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-md);
+  }
+
+  &__form-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+
+    .apply__back {
+      margin-top: 0;
+    }
   }
 
   &__submit {
