@@ -185,6 +185,15 @@
     color: var(--color-on-surface-variant);
   }
 
+  &__success-note {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-on-surface-variant);
+    opacity: 0.8;
+  }
+
   &__back {
     font-family: var(--font-body);
     font-size: 13px;
