@@ -1,4 +1,4 @@
-@if (!submitted) {
+@if (!submitted()) {
   <div class="apply">
     <div class="apply__nav">
       <a class="apply__home-link" [routerLink]="['/']">
@@ -168,7 +168,7 @@
           </div>
         </div>
 
-        @if (hasError) {
+        @if (hasError()) {
           <p class="apply__submit-error">
             Something went wrong — please try again or reach out directly at
             <a href="mailto:jrfitnessinbox@gmail.com">jrfitnessinbox&#64;gmail.com</a>.
@@ -177,8 +177,8 @@
 
         <div class="apply__form-actions">
           <a class="apply__back" [routerLink]="['/']">Back to Home</a>
-          <button class="apply__submit" type="submit" [disabled]="submitting">
-            {{ submitting ? 'Submitting...' : 'Submit Application' }}
+          <button class="apply__submit" type="submit" [disabled]="submitting()">
+            {{ submitting() ? 'Submitting...' : 'Submit Application' }}
           </button>
         </div>
 

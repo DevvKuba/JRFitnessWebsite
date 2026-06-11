@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -13,9 +13,9 @@ import { HttpClient } from '@angular/common/http';
 export class ApplyComponent implements OnInit {
   private readonly SCRIPT_URL = '/.netlify/functions/submit-application';
 
-  submitted = false;
-  submitting = false;
-  hasError = false;
+  submitted = signal(false);
+  submitting = signal(false);
+  hasError = signal(false);
 
   form = new FormGroup({
     coachingType: new FormControl('', Validators.required),
@@ -97,17 +97,17 @@ export class ApplyComponent implements OnInit {
       return;
     }
 
-    this.submitting = true;
-    this.hasError = false;
+    this.submitting.set(true);
+    this.hasError.set(false);
 
     this.http.post(this.SCRIPT_URL, this.form.value).subscribe({
       next: () => {
-        this.submitted = true;
-        this.submitting = false;
+        this.submitted.set(true);
+        this.submitting.set(false);
       },
       error: () => {
-        this.hasError = true;
-        this.submitting = false;
+        this.hasError.set(true);
+        this.submitting.set(false);
       },
     });
   }
