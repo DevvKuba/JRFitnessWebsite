@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="JR Fitness">
+  <rect width="64" height="64" rx="13" fill="#2962ff"/>
+  <!-- small light-blue weight plates on each side -->
+  <g stroke="#BFD3FF" fill="none" stroke-linecap="round">
+    <line x1="8"  y1="28" x2="8"  y2="36" stroke-width="3.2"/>
+    <line x1="56" y1="28" x2="56" y2="36" stroke-width="3.2"/>
+  </g>
+  <!-- JR in Arial Bold (glyph outlines as vector paths) -->
+  <g fill="#ffffff" transform="translate(11.456 43.205) scale(0.01555 -0.01555)"><path d="M678 1466H973V538Q973 356 941 258Q898 130 785.0 52.5Q672 -25 487 -25Q270 -25 153.0 96.5Q36 218 35 453L314 485Q319 359 351 307Q399 228 497 228Q596 228 637.0 284.5Q678 341 678 519ZM1289 0V1466H1912Q2147 1466 2253.5 1426.5Q2360 1387 2424.0 1286.0Q2488 1185 2488 1055Q2488 890 2391.0 782.5Q2294 675 2101 647Q2197 591 2259.5 524.0Q2322 457 2428 286L2607 0H2253L2039 319Q1925 490 1883.0 534.5Q1841 579 1794.0 595.5Q1747 612 1645 612H1585V0ZM1585 846H1804Q2017 846 2070.0 864.0Q2123 882 2153.0 926.0Q2183 970 2183 1036Q2183 1110 2143.5 1155.5Q2104 1201 2032 1213Q1996 1218 1816 1218H1585Z"/></g>
+</svg>
