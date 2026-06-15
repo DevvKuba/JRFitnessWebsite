@@ -84,7 +84,7 @@ function buildConfirmationText(firstName: string): string {
     '',
     `Thanks for applying to JR Fitness — your application has been received.`,
     '',
-    `JR will personally review your details and get back to you directly to talk through the next steps.`,
+    `Kuba will personally review your details and get back to you directly to talk through the next steps.`,
     '',
     `This inbox isn't monitored, so please don't reply — we'll reach out to you directly.`,
     '',
