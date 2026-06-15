@@ -5,6 +5,12 @@ import { Resend } from 'resend';
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Verified-domain sender for outbound email. Falls back to the Resend sandbox
+// sender, which can only deliver to the Resend account's own address — fine for
+// the owner notification before a domain is verified, but applicant
+// confirmations will not deliver until EMAIL_FROM points at a verified domain.
+const EMAIL_FROM = process.env.EMAIL_FROM ?? 'JR Fitness Website <onboarding@resend.dev>';
+
 const COACHING_TYPE_LABELS: Record<string, string> = {
   online: 'Online Coaching',
   'in-person': 'In-Person Coaching',
@@ -69,6 +75,63 @@ const REQUIRED_FIELDS: (keyof ApplicationPayload)[] = [
   'fitnessLevel',
   'referral',
 ];
+
+const BRAND_BLUE = '#2962ff';
+
+function buildConfirmationText(firstName: string): string {
+  return [
+    `Hi ${firstName},`,
+    '',
+    `Thanks for applying to JR Fitness — your application has been received.`,
+    '',
+    `JR will personally review your details and get back to you directly to talk through the next steps.`,
+    '',
+    `This inbox isn't monitored, so please don't reply — we'll reach out to you directly.`,
+    '',
+    `— JR Fitness`,
+  ].join('\n');
+}
+
+function buildConfirmationHtml(firstName: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+  <body style="margin:0;padding:0;background-color:#f4f4f6;font-family:Arial,Helvetica,sans-serif;color:#1a1a1c;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f6;padding:24px 0;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background-color:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e0e0ea;">
+            <tr>
+              <td style="background-color:${BRAND_BLUE};padding:28px 32px;">
+                <span style="color:#ffffff;font-size:22px;font-weight:bold;letter-spacing:2px;">JR FITNESS</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:32px;">
+                <h1 style="margin:0 0 16px;font-size:22px;color:#1a1a1c;">Application received</h1>
+                <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#1a1a1c;">Hi ${firstName},</p>
+                <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#1a1a1c;">
+                  Thanks for applying to JR Fitness — your application has been received.
+                </p>
+                <p style="margin:0 0 16px;font-size:16px;line-height:1.6;color:#1a1a1c;">
+                  JR will personally review your details and get back to you directly to talk through the next steps.
+                </p>
+                <p style="margin:24px 0 0;font-size:16px;line-height:1.6;color:#1a1a1c;">— JR Fitness</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 32px;background-color:#f4f4f6;border-top:1px solid #e0e0ea;">
+                <p style="margin:0;font-size:13px;line-height:1.5;color:#5a5a6e;">
+                  This inbox isn't monitored, so please don't reply to this email — we'll reach out to you directly.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}
 
 export const handler: Handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -135,11 +198,27 @@ export const handler: Handler = async (event) => {
     summaryLines.push(`Referral Source: ${REFERRAL_LABELS[data.referral] ?? data.referral}`);
 
     await resend.emails.send({
-      from: 'JR Fitness Website <onboarding@resend.dev>',
+      from: EMAIL_FROM,
       to: process.env.NOTIFICATION_EMAIL!,
       subject: `New Application — ${data.fullName} (${coachingType})`,
       text: summaryLines.join('\n'),
     });
+
+    // Applicant confirmation — best-effort. A failure here (e.g. before a domain
+    // is verified, or a bounced address) must not fail the submission: the Notion
+    // record and owner notification above have already succeeded.
+    try {
+      const firstName = data.fullName.trim().split(/\s+/)[0];
+      await resend.emails.send({
+        from: EMAIL_FROM,
+        to: data.email,
+        subject: `We've received your application — JR Fitness`,
+        text: buildConfirmationText(firstName),
+        html: buildConfirmationHtml(firstName),
+      });
+    } catch (confirmErr) {
+      console.error('submit-application confirmation email failed', confirmErr);
+    }
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
   } catch (err) {
