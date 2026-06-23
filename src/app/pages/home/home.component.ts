@@ -12,9 +12,9 @@ import { FooterComponent } from '../../components/footer/footer.component';
   imports: [HeroComponent, MethodologyComponent, TransformationsComponent, TestimonialsComponent, OfferingsComponent, FooterComponent],
   template: `
     <app-hero />
-    <app-methodology />
     <app-transformations />
     <app-testimonials />
+    <app-methodology />
     <app-offerings />
     <app-footer />
   `,
