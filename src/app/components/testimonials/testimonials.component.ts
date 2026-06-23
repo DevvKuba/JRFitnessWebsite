@@ -13,12 +13,21 @@ export class TestimonialsComponent {
 
   readonly visibleCount = 3;
 
+  // Drop video files into `public/testimonials/` and reference them by path
+  // (e.g. videoSrc: 'testimonials/sarah-highlight.mp4'). `videoSrc` is the
+  // featured "highlight" cut; `clips` are the other cuts taken from the same
+  // client's testimonial and appear in the collapsible panel on the card.
   testimonials: Testimonial[] = [
     {
       clientName: 'Sarah K.',
       programme: 'Online Coaching',
       videoSrc: '',
       posterImage: '',
+      clips: [
+        { label: 'Why she joined', videoSrc: '', posterImage: '' },
+        { label: 'The turning point', videoSrc: '', posterImage: '' },
+        { label: 'Where she is now', videoSrc: '', posterImage: '' },
+      ],
     },
     {
       clientName: 'James T.',

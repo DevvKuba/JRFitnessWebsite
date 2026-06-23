@@ -1,15 +1,74 @@
-<article class="tc-card">
+<article class="tc-card" [class.tc-card--expanded]="expanded()">
   <div class="tc-card__media">
-    @if (testimonial.videoSrc) {
-      <video class="tc-card__video" [poster]="testimonial.posterImage" controls playsinline>
-        <source [src]="testimonial.videoSrc" type="video/mp4" />
+    @if (activeVideo().videoSrc) {
+      <video
+        #player
+        class="tc-card__video"
+        [poster]="activeVideo().posterImage"
+        controls
+        playsinline
+      >
+        <source [src]="activeVideo().videoSrc" type="video/mp4" />
       </video>
     } @else {
       <div class="tc-card__placeholder"></div>
     }
   </div>
+
   <div class="tc-card__attribution">
-    <p class="tc-card__name">{{ testimonial.clientName }}</p>
-    <p class="tc-card__programme">{{ testimonial.programme }}</p>
+    <p class="tc-card__name">{{ testimonial().clientName }}</p>
+    <p class="tc-card__programme">{{ testimonial().programme }}</p>
+    @if (activeIndex() > 0) {
+      <p class="tc-card__now-playing">Now playing — {{ activeVideo().label }}</p>
+    }
   </div>
+
+  @if (hasClips()) {
+    <button
+      type="button"
+      class="tc-card__toggle"
+      (click)="toggleExpanded()"
+      [attr.aria-expanded]="expanded()"
+    >
+      <span>
+        {{ expanded() ? 'Hide clips' : testimonial().clips!.length + ' more clip' + (testimonial().clips!.length === 1 ? '' : 's') }}
+      </span>
+      <svg
+        class="tc-card__chevron"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+
+    @if (expanded()) {
+      <ul class="tc-card__clips">
+        @for (clip of playlist(); track $index) {
+          <li>
+            <button
+              type="button"
+              class="tc-card__clip"
+              [class.tc-card__clip--active]="activeIndex() === $index"
+              (click)="selectClip($index)"
+            >
+              <span
+                class="tc-card__clip-thumb"
+                [style.background-image]="clip.posterImage ? 'url(' + clip.posterImage + ')' : null"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8 5V19L19 12L8 5Z" />
+                </svg>
+              </span>
+              <span class="tc-card__clip-label">{{ clip.label }}</span>
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  }
 </article>
