@@ -123,17 +123,32 @@
   }
 
   &__clip-thumb {
+    position: relative;
     flex-shrink: 0;
     width: 40px;
     height: 40px;
     border-radius: var(--radius);
+    overflow: hidden;
     background-color: #000000;
-    background-size: cover;
-    background-position: center;
+  }
+
+  &__clip-thumb-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  &__clip-thumb-icon {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
   &__clip-label {

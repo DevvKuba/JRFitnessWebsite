@@ -13,33 +13,32 @@ export class TestimonialsComponent {
 
   readonly visibleCount = 3;
 
-  // Drop video files into `public/testimonials/` and reference them by path
-  // (e.g. videoSrc: 'testimonials/sarah-highlight.mp4'). `videoSrc` is the
-  // featured "highlight" cut; `clips` are the other cuts taken from the same
-  // client's testimonial and appear in the collapsible panel on the card.
+  // Files live in `public/`, which is served from the site root, so a path like
+  // 'testimonials/Nathan/...mp4' maps to public/testimonials/Nathan/...mp4. One
+  // folder per client keeps the highlight and its clips grouped together.
+  //
+  // Per card: `videoSrc` is the featured "highlight" cut that plays by default;
+  // `clips` are the other cuts from the same testimonial, shown in the
+  // collapsible "more clips" panel. Posters are left empty on purpose — the
+  // player shows each video's first frame as the still.
   testimonials: Testimonial[] = [
     {
-      clientName: 'Sarah K.',
-      programme: 'Online Coaching',
-      videoSrc: '',
+      clientName: 'Nathan',
+      programme: 'Online Coaching', // TODO: set Nathan's actual programme
+      videoSrc: 'testimonials/Nathan/PT%20Removes%20Workout%20Stress.mp4',
       posterImage: '',
       clips: [
-        { label: 'Why she joined', videoSrc: '', posterImage: '' },
-        { label: 'The turning point', videoSrc: '', posterImage: '' },
-        { label: 'Where she is now', videoSrc: '', posterImage: '' },
+        {
+          label: 'Motivation to Turn up',
+          videoSrc: 'testimonials/Nathan/Motivation%20to%20Turn%20up.mp4',
+          posterImage: '',
+        },
+        {
+          label: 'Why Hire a Trainer',
+          videoSrc: 'testimonials/Nathan/Why%20Hire%20a%20Trainer.mp4',
+          posterImage: '',
+        },
       ],
-    },
-    {
-      clientName: 'James T.',
-      programme: 'In-Person Coaching',
-      videoSrc: '',
-      posterImage: '',
-    },
-    {
-      clientName: 'Priya M.',
-      programme: 'Hybrid Coaching',
-      videoSrc: '',
-      posterImage: '',
     },
   ];
 
