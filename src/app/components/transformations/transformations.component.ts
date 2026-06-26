@@ -15,9 +15,9 @@ export class TransformationsComponent {
 
   transformations: Transformation[] = [
     {
-      duration: '12 Weeks',
-      beforeImage: '',
-      afterImage: '',
+      duration: '16 Weeks',
+      beforeImage: 'transformations/Nathan/Nathan_Before_Pic.jpeg',
+      afterImage: 'transformations/Nathan/Nathan_After_Pic.jpeg',
       testimonial:
         "I've tried plenty of programmes before but nothing came close to this. The structure, the check-ins, and the constant support made all the difference.",
     },
