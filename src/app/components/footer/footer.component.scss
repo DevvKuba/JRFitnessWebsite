@@ -114,3 +114,25 @@
     color: var(--color-on-surface-variant);
   }
 }
+
+@media (max-width: 768px) {
+  .footer {
+    &__upper {
+      grid-template-columns: 1fr;
+      padding: var(--space-lg) var(--space-margin);
+    }
+
+    &__info {
+      order: -1;
+    }
+
+    &__brand {
+      font-size: 2rem;
+    }
+
+    &__lower {
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+  }
+}

@@ -122,3 +122,41 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+
+    &__inner {
+      grid-template-columns: 1fr;
+      padding: var(--space-lg) var(--space-margin);
+      gap: var(--space-md);
+    }
+
+    &__headline {
+      font-size: 44px;
+    }
+
+    &__image,
+    &__image-placeholder {
+      max-height: 420px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    &__headline {
+      font-size: 36px;
+    }
+
+    &__actions {
+      flex-direction: column;
+      align-items: stretch;
+
+      .btn {
+        justify-content: center;
+      }
+    }
+  }
+}

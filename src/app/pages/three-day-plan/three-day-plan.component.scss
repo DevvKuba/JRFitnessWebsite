@@ -60,3 +60,15 @@
     }
   }
 }
+
+@media (max-width: 480px) {
+  .three-day-plan {
+    &__headline {
+      font-size: 36px;
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}

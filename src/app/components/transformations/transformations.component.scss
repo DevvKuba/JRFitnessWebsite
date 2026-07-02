@@ -86,3 +86,17 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .transformations {
+    padding: var(--space-lg) 0;
+
+    &__headline {
+      font-size: 40px;
+    }
+
+    &__arrow {
+      display: none;
+    }
+  }
+}

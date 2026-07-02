@@ -280,3 +280,27 @@
   font-weight: 500;
   color: #dc2626;
 }
+
+@media (max-width: 768px) {
+  .apply {
+    &__header {
+      padding: var(--space-lg) var(--space-margin);
+    }
+
+    &__headline {
+      font-size: 40px;
+    }
+
+    &__form-wrapper {
+      padding: var(--space-lg) var(--space-margin);
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__success-headline {
+      font-size: 36px;
+    }
+  }
+}

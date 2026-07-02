@@ -85,3 +85,17 @@
     color: var(--color-on-surface-variant);
   }
 }
+
+@media (max-width: 768px) {
+  .methodology {
+    padding: var(--space-lg) 0;
+
+    &__headline {
+      font-size: 40px;
+    }
+
+    &__pillars {
+      grid-template-columns: 1fr;
+    }
+  }
+}

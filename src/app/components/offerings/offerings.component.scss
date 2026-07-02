@@ -199,3 +199,17 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .offerings {
+    padding: var(--space-lg) 0;
+
+    &__headline {
+      font-size: 40px;
+    }
+
+    &__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+}
