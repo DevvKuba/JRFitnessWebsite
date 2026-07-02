@@ -1,0 +1,16 @@
+<div class="three-day-plan">
+  <div class="three-day-plan__card">
+    <p class="three-day-plan__label">JR Fitness</p>
+    <h1 class="three-day-plan__headline">Your 3-Day Plan</h1>
+    <p class="three-day-plan__text">
+      @if (autoDownloadTriggered()) {
+        Your download should have started automatically. If it didn't, use the button below.
+      } @else {
+        Preparing your download...
+      }
+    </p>
+    <button class="three-day-plan__button" type="button" (click)="downloadPlan()">
+      Download Again
+    </button>
+  </div>
+</div>
