@@ -1,11 +1,11 @@
 <nav class="navbar">
   <div class="navbar__inner">
-    <div class="navbar__logo">JR FITNESS</div>
+    <a class="navbar__logo" [routerLink]="['/']">JR FITNESS</a>
     <ul class="navbar__links">
-      <li><a [routerLink]="[]" fragment="offerings">Services</a></li>
-      <li><a [routerLink]="[]" fragment="results">Results</a></li>
-      <li><a [routerLink]="[]" fragment="methodology">About</a></li>
-      <li><a [routerLink]="[]" fragment="contact">Contact</a></li>
+      <li><a [routerLink]="['/']" fragment="offerings">Services</a></li>
+      <li><a [routerLink]="['/']" fragment="results">Results</a></li>
+      <li><a [routerLink]="['/']" fragment="methodology">About</a></li>
+      <li><a [routerLink]="['/']" fragment="contact">Contact</a></li>
     </ul>
   </div>
 </nav>

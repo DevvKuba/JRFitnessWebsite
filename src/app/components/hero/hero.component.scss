@@ -61,6 +61,16 @@
     align-items: center;
   }
 
+  &__image {
+    width: 100%;
+    aspect-ratio: 5 / 4.5;
+    max-height: 560px;
+    object-fit: cover;
+    object-position: center 20%;
+    border-radius: var(--radius-lg);
+    display: block;
+  }
+
   &__image-placeholder {
     width: 100%;
     aspect-ratio: 4 / 5;
