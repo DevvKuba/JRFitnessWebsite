@@ -15,6 +15,7 @@ export class TransformationsComponent {
 
   transformations: Transformation[] = [
     {
+      clientName: 'Nathan',
       duration: '16 Weeks',
       beforeImage: 'transformations/Nathan/Nathan_Before_Pic.jpeg',
       afterImage: 'transformations/Nathan/Nathan_After_Pic.jpeg',

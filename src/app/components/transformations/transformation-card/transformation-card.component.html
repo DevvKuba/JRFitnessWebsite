@@ -3,7 +3,11 @@
     <div class="t-card__image-wrap">
       <span class="t-card__image-label">Before</span>
       @if (transformation.beforeImage) {
-        <img class="t-card__image" [src]="transformation.beforeImage" alt="Before" />
+        <img
+          class="t-card__image"
+          [src]="transformation.beforeImage"
+          alt="{{ transformation.clientName }}'s before photo — {{ transformation.duration }} transformation, JR Fitness personal training"
+        />
       } @else {
         <div class="t-card__image-placeholder"></div>
       }
@@ -11,7 +15,11 @@
     <div class="t-card__image-wrap">
       <span class="t-card__image-label">After</span>
       @if (transformation.afterImage) {
-        <img class="t-card__image" [src]="transformation.afterImage" alt="After" />
+        <img
+          class="t-card__image"
+          [src]="transformation.afterImage"
+          alt="{{ transformation.clientName }}'s after photo — {{ transformation.duration }} transformation, JR Fitness personal training"
+        />
       } @else {
         <div class="t-card__image-placeholder"></div>
       }

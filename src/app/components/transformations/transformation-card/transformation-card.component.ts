@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 export interface Transformation {
+  clientName: string;
   duration: string;
   beforeImage: string;
   afterImage: string;
