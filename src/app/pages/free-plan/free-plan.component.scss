@@ -1,0 +1,199 @@
+.free-plan {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  padding: var(--space-margin);
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    max-width: 480px;
+    text-align: center;
+  }
+
+  &__label {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  &__headline {
+    font-family: var(--font-headline);
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-on-background);
+  }
+
+  &__subtext {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-on-surface-variant);
+    margin-bottom: var(--space-sm);
+  }
+
+  &__benefits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    list-style: none;
+    margin-bottom: var(--space-md);
+    text-align: left;
+
+    li {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--color-on-background);
+      padding-left: 28px;
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 5px;
+        width: 18px;
+        height: 18px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-primary-light);
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    width: 100%;
+  }
+
+  &__button {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: none;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    transition: background-color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-primary-dark);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__privacy {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--color-on-surface-variant);
+    opacity: 0.8;
+  }
+
+  &__submit-error {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: #dc2626;
+
+    a {
+      color: inherit;
+    }
+  }
+
+  &__back {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border-radius: var(--radius);
+    border: 2px solid var(--color-on-background);
+    color: var(--color-on-background);
+    text-decoration: none;
+    margin-top: var(--space-sm);
+    display: inline-block;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  text-align: left;
+}
+
+.form-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-on-background);
+}
+
+.form-input {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--color-on-background);
+  background-color: var(--color-surface);
+  border: 1.5px solid var(--color-outline);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  outline: none;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-background);
+  }
+
+  &.error {
+    border-color: #dc2626;
+  }
+}
+
+.form-error {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: #dc2626;
+}
+
+@media (max-width: 480px) {
+  .free-plan {
+    &__headline {
+      font-size: 36px;
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}

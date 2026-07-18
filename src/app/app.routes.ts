@@ -15,4 +15,9 @@ export const routes: Routes = [
       import('./pages/three-day-plan/three-day-plan.component').then(m => m.ThreeDayPlanComponent),
     data: { hideChrome: true },
   },
+  {
+    path: 'free-plan',
+    loadComponent: () => import('./pages/free-plan/free-plan.component').then(m => m.FreePlanComponent),
+    data: { hideChrome: true },
+  },
 ];

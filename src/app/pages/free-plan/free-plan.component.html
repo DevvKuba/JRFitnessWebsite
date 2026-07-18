@@ -1,0 +1,64 @@
+@if (!submitted()) {
+  <div class="free-plan">
+    <div class="free-plan__card">
+      <p class="free-plan__label">Free Download</p>
+      <h1 class="free-plan__headline">Your Free<br />3-Day Training Plan</h1>
+      <p class="free-plan__subtext">
+        A done-for-you, 3-day workout plan — full exercises, sets, reps and rest built in.
+        Enter your email and it'll land straight in your inbox.
+      </p>
+
+      <ul class="free-plan__benefits">
+        <li>3 complete workouts, ready to follow from day one</li>
+        <li>Clear sets, reps and rest for every exercise</li>
+        <li>No guesswork — just show up and train</li>
+      </ul>
+
+      <form class="free-plan__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-field">
+          <label class="form-label" for="email">Email Address</label>
+          <input
+            class="form-input"
+            [class.error]="isInvalid('email')"
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="jane@example.com"
+          />
+          @if (isInvalid('email')) {
+            <span class="form-error">A valid email address is required</span>
+          }
+        </div>
+
+        @if (hasError()) {
+          <p class="free-plan__submit-error">
+            Something went wrong — please try again or reach out directly at
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=kuba@jrfitness.co.uk"
+              target="_blank"
+              rel="noopener noreferrer"
+            >kuba&#64;jrfitness.co.uk</a>.
+          </p>
+        }
+
+        <button class="free-plan__button" type="submit" [disabled]="submitting()">
+          {{ submitting() ? 'Sending...' : 'Send Me My Plan' }}
+        </button>
+
+        <p class="free-plan__privacy">No spam — just your plan. Unsubscribe anytime.</p>
+      </form>
+    </div>
+  </div>
+} @else {
+  <div class="free-plan">
+    <div class="free-plan__card">
+      <p class="free-plan__label">Free Download</p>
+      <h1 class="free-plan__headline">Check Your Inbox</h1>
+      <p class="free-plan__subtext">
+        Your 3-Day Plan is on its way — it should land within a few minutes.
+        If you don't see it, check your spam or promotions folder.
+      </p>
+      <a class="free-plan__back" [routerLink]="['/']">Back to Home</a>
+    </div>
+  </div>
+}
