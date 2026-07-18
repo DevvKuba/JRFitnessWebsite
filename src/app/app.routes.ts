@@ -6,9 +6,9 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
     data: {
       seo: {
-        title: 'Personal Trainer in Colliers Wood & South Wimbledon | JR Fitness',
+        title: 'Personal Trainer in South Wimbledon | JR Fitness',
         description:
-          "Personal training & online coaching in Colliers Wood & South Wimbledon, London. Real results without living in the gym — built around you, not a template.",
+          'Personal training & online coaching based in South Wimbledon, London — also serving Colliers Wood. Real results without living in the gym.',
       },
     },
   },
