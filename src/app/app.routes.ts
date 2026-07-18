@@ -18,6 +18,5 @@ export const routes: Routes = [
   {
     path: 'free-plan',
     loadComponent: () => import('./pages/free-plan/free-plan.component').then(m => m.FreePlanComponent),
-    data: { hideChrome: true },
   },
 ];
