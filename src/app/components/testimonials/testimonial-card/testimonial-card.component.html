@@ -7,7 +7,7 @@
         [poster]="activeVideo().posterImage || null"
         controls
         playsinline
-        preload="metadata"
+        preload="none"
       >
         <source [src]="activeVideo().videoSrc + '#t=0.1'" type="video/mp4" />
       </video>
@@ -61,7 +61,8 @@
                 @if (clip.videoSrc) {
                   <video
                     class="tc-card__clip-thumb-video"
-                    preload="metadata"
+                    [poster]="clip.posterImage || null"
+                    preload="none"
                     muted
                     playsinline
                     tabindex="-1"

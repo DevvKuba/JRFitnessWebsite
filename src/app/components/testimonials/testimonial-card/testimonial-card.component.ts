@@ -54,6 +54,7 @@ export class TestimonialCardComponent {
   );
 
   private playOnNextRender = false;
+  private skipNextLoad = true;
 
   constructor() {
     // Reset to the highlight whenever a different testimonial is bound.
@@ -64,10 +65,19 @@ export class TestimonialCardComponent {
     });
 
     // Load (and, when the user picked a clip, play) the selected video.
+    // Skipped on the effect's initial run — the template's [src] binding
+    // already points at the right source on first render, and with
+    // preload="none" nothing should fetch until the user actually picks a
+    // clip. Calling video.load() unconditionally here (including on mount)
+    // was forcing every visible card to eagerly fetch its full video.
     effect(() => {
       this.activeIndex();
       const video = this.player()?.nativeElement;
       if (!video) {
+        return;
+      }
+      if (this.skipNextLoad) {
+        this.skipNextLoad = false;
         return;
       }
       video.load();
