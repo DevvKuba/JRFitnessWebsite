@@ -19,21 +19,7 @@ export class TransformationsComponent {
       beforeImage: 'transformations/Nathan/Nathan_Before_Pic.jpeg',
       afterImage: 'transformations/Nathan/Nathan_After_Pic.jpeg',
       testimonial:
-        "I've tried plenty of programmes before but nothing came close to this. The structure, the check-ins, and the constant support made all the difference.",
-    },
-    {
-      duration: '16 Weeks',
-      beforeImage: '',
-      afterImage: '',
-      testimonial:
-        'What stood out was how personal it felt. Every session was built around me, not a generic plan. The results speak for themselves.',
-    },
-    {
-      duration: '8 Weeks',
-      beforeImage: '',
-      afterImage: '',
-      testimonial:
-        'Eight weeks felt short but the progress was undeniable. Already signed up for the next block.',
+        "The biggest thing for me was not having to think about any of it. Kuba tells me what to do and how to do it, so I just turn up and train — and that's what actually got me to the gym consistently."
     },
   ];
 
