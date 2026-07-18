@@ -1,7 +1,7 @@
 import type { Handler } from '@netlify/functions';
 
-const BREVO_API_KEY = process.env.BREVO_API_KEY!;
-const BREVO_LIST_ID = Number(process.env.BREVO_LIST_ID);
+const BREVO_API_KEY = process.env.BREVO_API_KEY?.trim() ?? '';
+const BREVO_LIST_ID = Number(process.env.BREVO_LIST_ID?.trim());
 
 interface LeadPayload {
   email?: string;
@@ -40,7 +40,8 @@ export const handler: Handler = async (event) => {
     // Brevo returns 400 for "contact already exists" in some API versions even
     // with updateEnabled — treat that as success rather than a real failure.
     if (!res.ok && res.status !== 400) {
-      throw new Error(`Brevo responded ${res.status}`);
+      const bodyText = await res.text();
+      throw new Error(`Brevo responded ${res.status}: ${bodyText}`);
     }
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
