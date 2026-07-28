@@ -1,15 +1,45 @@
 import type { Handler } from '@netlify/functions';
 import { Client } from '@notionhq/client';
-import { Resend } from 'resend';
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Verified-domain sender for outbound email. Falls back to the Resend sandbox
-// sender, which can only deliver to the Resend account's own address — fine for
-// the owner notification before a domain is verified, but applicant
-// confirmations will not deliver until EMAIL_FROM points at a verified domain.
-const EMAIL_FROM = process.env.EMAIL_FROM ?? 'JR Fitness Website <onboarding@resend.dev>';
+const BREVO_API_KEY = process.env.BREVO_API_KEY?.trim() ?? '';
+
+// Verified sender for outbound transactional email (Brevo), format "Name <email>".
+const EMAIL_FROM = process.env.EMAIL_FROM ?? 'JR Fitness <kuba@jrfitness.co.uk>';
+
+function parseSender(raw: string): { name?: string; email: string } {
+  const match = raw.match(/^(.*)<(.+)>$/);
+  if (match) {
+    return { name: match[1].trim() || undefined, email: match[2].trim() };
+  }
+  return { email: raw.trim() };
+}
+
+async function sendBrevoEmail(params: { to: string; subject: string; text: string; html?: string }) {
+  const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+    method: 'POST',
+    headers: {
+      'api-key': BREVO_API_KEY,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      sender: parseSender(EMAIL_FROM),
+      to: [{ email: params.to }],
+      subject: params.subject,
+      textContent: params.text,
+      ...(params.html ? { htmlContent: params.html } : {}),
+    }),
+  });
+
+  const bodyText = await res.text();
+  if (!res.ok) {
+    throw new Error(`Brevo email send failed (${res.status}): ${bodyText}`);
+  }
+
+  return bodyText ? (JSON.parse(bodyText) as { messageId?: string }) : {};
+}
 
 const COACHING_TYPE_LABELS: Record<string, string> = {
   online: 'Online Coaching',
@@ -197,41 +227,27 @@ export const handler: Handler = async (event) => {
 
     summaryLines.push(`Referral Source: ${REFERRAL_LABELS[data.referral] ?? data.referral}`);
 
-    // The Resend SDK does not throw on API-level failures (invalid domain,
-    // restricted key, quota, etc.) — it resolves with { data: null, error }.
-    // Both sends must check `error` explicitly or a failed send is silently
-    // reported as a success with nothing in the logs.
-    const ownerSend = await resend.emails.send({
-      from: EMAIL_FROM,
+    const ownerSend = await sendBrevoEmail({
       to: process.env.NOTIFICATION_EMAIL!,
       subject: `New Application — ${data.fullName} (${coachingType})`,
       text: summaryLines.join('\n'),
     });
 
-    if (ownerSend.error) {
-      throw new Error(`Resend owner notification failed: ${ownerSend.error.name} — ${ownerSend.error.message}`);
-    }
+    console.log(`submit-application: owner notification sent (id ${ownerSend.messageId}) for ${data.email}`);
 
-    console.log(`submit-application: owner notification sent (id ${ownerSend.data?.id}) for ${data.email}`);
-
-    // Applicant confirmation — best-effort. A failure here (e.g. before a domain
-    // is verified, or a bounced address) must not fail the submission: the Notion
-    // record and owner notification above have already succeeded.
+    // Applicant confirmation — best-effort. A failure here (e.g. a bounced
+    // address) must not fail the submission: the Notion record and owner
+    // notification above have already succeeded.
     try {
       const firstName = data.fullName.trim().split(/\s+/)[0];
-      const confirmSend = await resend.emails.send({
-        from: EMAIL_FROM,
+      const confirmSend = await sendBrevoEmail({
         to: data.email,
         subject: `We've received your application — JR Fitness`,
         text: buildConfirmationText(firstName),
         html: buildConfirmationHtml(firstName),
       });
 
-      if (confirmSend.error) {
-        console.error(`submit-application confirmation email failed for ${data.email}:`, confirmSend.error);
-      } else {
-        console.log(`submit-application: confirmation sent (id ${confirmSend.data?.id}) to ${data.email}`);
-      }
+      console.log(`submit-application: confirmation sent (id ${confirmSend.messageId}) to ${data.email}`);
     } catch (confirmErr) {
       console.error(`submit-application confirmation email failed for ${data.email}:`, confirmErr);
     }
