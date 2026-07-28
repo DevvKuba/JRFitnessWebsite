@@ -37,16 +37,25 @@ export const handler: Handler = async (event) => {
       }),
     });
 
-    // Brevo returns 400 for "contact already exists" in some API versions even
-    // with updateEnabled — treat that as success rather than a real failure.
-    if (!res.ok && res.status !== 400) {
-      const bodyText = await res.text();
+    const bodyText = await res.text();
+
+    // Brevo returns 400 with code "duplicate_parameter" when the contact already
+    // exists — that's expected (updateEnabled still applies list membership), not
+    // a failure. Any other non-2xx response is a real error and must not be
+    // swallowed, or a bad submission silently never reaches Brevo.
+    const isDuplicate = res.status === 400 && bodyText.includes('"duplicate_parameter"');
+
+    if (!res.ok && !isDuplicate) {
       throw new Error(`Brevo responded ${res.status}: ${bodyText}`);
     }
 
+    console.log(
+      `submit-lead: ${data.email} -> list ${BREVO_LIST_ID} (${isDuplicate ? 'already existed, re-added' : 'created/updated'})`
+    );
+
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
   } catch (err) {
-    console.error('submit-lead error', err);
+    console.error(`submit-lead error for ${data.email}:`, err);
     return { statusCode: 500, body: JSON.stringify({ success: false }) };
   }
 };

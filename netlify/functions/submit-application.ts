@@ -197,27 +197,43 @@ export const handler: Handler = async (event) => {
 
     summaryLines.push(`Referral Source: ${REFERRAL_LABELS[data.referral] ?? data.referral}`);
 
-    await resend.emails.send({
+    // The Resend SDK does not throw on API-level failures (invalid domain,
+    // restricted key, quota, etc.) — it resolves with { data: null, error }.
+    // Both sends must check `error` explicitly or a failed send is silently
+    // reported as a success with nothing in the logs.
+    const ownerSend = await resend.emails.send({
       from: EMAIL_FROM,
       to: process.env.NOTIFICATION_EMAIL!,
       subject: `New Application — ${data.fullName} (${coachingType})`,
       text: summaryLines.join('\n'),
     });
 
+    if (ownerSend.error) {
+      throw new Error(`Resend owner notification failed: ${ownerSend.error.name} — ${ownerSend.error.message}`);
+    }
+
+    console.log(`submit-application: owner notification sent (id ${ownerSend.data?.id}) for ${data.email}`);
+
     // Applicant confirmation — best-effort. A failure here (e.g. before a domain
     // is verified, or a bounced address) must not fail the submission: the Notion
     // record and owner notification above have already succeeded.
     try {
       const firstName = data.fullName.trim().split(/\s+/)[0];
-      await resend.emails.send({
+      const confirmSend = await resend.emails.send({
         from: EMAIL_FROM,
         to: data.email,
         subject: `We've received your application — JR Fitness`,
         text: buildConfirmationText(firstName),
         html: buildConfirmationHtml(firstName),
       });
+
+      if (confirmSend.error) {
+        console.error(`submit-application confirmation email failed for ${data.email}:`, confirmSend.error);
+      } else {
+        console.log(`submit-application: confirmation sent (id ${confirmSend.data?.id}) to ${data.email}`);
+      }
     } catch (confirmErr) {
-      console.error('submit-application confirmation email failed', confirmErr);
+      console.error(`submit-application confirmation email failed for ${data.email}:`, confirmErr);
     }
 
     return { statusCode: 200, body: JSON.stringify({ success: true }) };
