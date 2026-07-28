@@ -5,6 +5,9 @@ const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 const BREVO_API_KEY = process.env.BREVO_API_KEY?.trim() ?? '';
 
+// Brevo list ID for "Registered Interest for Coaching".
+const BREVO_APPLICATION_LIST_ID = Number(process.env.BREVO_APPLICATION_LIST_ID?.trim());
+
 // Verified sender for outbound transactional email (Brevo), format "Name <email>".
 const EMAIL_FROM = process.env.EMAIL_FROM ?? 'JR Fitness <kuba@jrfitness.co.uk>';
 
@@ -39,6 +42,26 @@ async function sendBrevoEmail(params: { to: string; subject: string; text: strin
   }
 
   return bodyText ? (JSON.parse(bodyText) as { messageId?: string }) : {};
+}
+
+async function addToBrevoList(email: string, listId: number): Promise<void> {
+  const res = await fetch('https://api.brevo.com/v3/contacts', {
+    method: 'POST',
+    headers: {
+      'api-key': BREVO_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, listIds: [listId], updateEnabled: true }),
+  });
+
+  const bodyText = await res.text();
+
+  // "duplicate_parameter" means the contact already exists — expected, not a failure.
+  const isDuplicate = res.status === 400 && bodyText.includes('"duplicate_parameter"');
+
+  if (!res.ok && !isDuplicate) {
+    throw new Error(`Brevo responded ${res.status}: ${bodyText}`);
+  }
 }
 
 const COACHING_TYPE_LABELS: Record<string, string> = {
@@ -210,6 +233,16 @@ export const handler: Handler = async (event) => {
         Submitted: { date: { start: new Date().toISOString() } },
       },
     } as any);
+
+    // Add the applicant to the "Registered Interest for Coaching" Brevo list —
+    // best-effort, mirrors the confirmation email below: must not fail the
+    // submission since the Notion record above is already the source of truth.
+    try {
+      await addToBrevoList(data.email, BREVO_APPLICATION_LIST_ID);
+      console.log(`submit-application: ${data.email} added to Brevo list ${BREVO_APPLICATION_LIST_ID}`);
+    } catch (listErr) {
+      console.error(`submit-application: failed to add ${data.email} to Brevo list ${BREVO_APPLICATION_LIST_ID}:`, listErr);
+    }
 
     const summaryLines = [
       `Coaching Type: ${coachingType}`,
