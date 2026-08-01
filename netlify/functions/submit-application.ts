@@ -65,9 +65,13 @@ async function addToBrevoList(email: string, listId: number): Promise<void> {
 }
 
 const COACHING_TYPE_LABELS: Record<string, string> = {
-  online: 'Online Coaching',
+  'twelve-week': '12-Week Programme',
   'in-person': 'In-Person Coaching',
-  hybrid: 'Hybrid Coaching',
+};
+
+const PAYMENT_PLAN_LABELS: Record<string, string> = {
+  upfront: 'Pay in Full (£499)',
+  installments: '3 Monthly Payments (£180/month)',
 };
 
 const GOAL_LABELS: Record<string, string> = {
@@ -115,6 +119,7 @@ interface ApplicationPayload {
   injuries?: string;
   referral: string;
   equipment?: string;
+  paymentPlan?: string;
   preferredDays?: string;
   trainingLocation?: string;
 }
@@ -223,6 +228,9 @@ export const handler: Handler = async (event) => {
         ...(data.equipment
           ? { 'Equipment Access': { select: { name: EQUIPMENT_LABELS[data.equipment] ?? data.equipment } } }
           : {}),
+        ...(data.paymentPlan
+          ? { 'Payment Plan': { select: { name: PAYMENT_PLAN_LABELS[data.paymentPlan] ?? data.paymentPlan } } }
+          : {}),
         ...(data.preferredDays
           ? { 'Preferred Days': { select: { name: PREFERRED_DAYS_LABELS[data.preferredDays] ?? data.preferredDays } } }
           : {}),
@@ -255,6 +263,7 @@ export const handler: Handler = async (event) => {
 
     if (data.injuries) summaryLines.push(`Injuries / Limitations: ${data.injuries}`);
     if (data.equipment) summaryLines.push(`Equipment Access: ${EQUIPMENT_LABELS[data.equipment] ?? data.equipment}`);
+    if (data.paymentPlan) summaryLines.push(`Payment Plan: ${PAYMENT_PLAN_LABELS[data.paymentPlan] ?? data.paymentPlan}`);
     if (data.preferredDays) summaryLines.push(`Preferred Days: ${PREFERRED_DAYS_LABELS[data.preferredDays] ?? data.preferredDays}`);
     if (data.trainingLocation) summaryLines.push(`Training Location: ${data.trainingLocation}`);
 

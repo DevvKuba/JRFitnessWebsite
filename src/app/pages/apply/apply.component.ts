@@ -27,6 +27,7 @@ export class ApplyComponent implements OnInit {
     injuries: new FormControl(''),
     referral: new FormControl('', Validators.required),
     equipment: new FormControl(''),
+    paymentPlan: new FormControl(''),
     preferredDays: new FormControl(''),
     trainingLocation: new FormControl(''),
   });
@@ -53,11 +54,11 @@ export class ApplyComponent implements OnInit {
   }
 
   get showEquipment() {
-    return this.coachingType === 'online' || this.coachingType === 'hybrid';
+    return this.coachingType === 'twelve-week';
   }
 
   get showLocationDays() {
-    return this.coachingType === 'in-person' || this.coachingType === 'hybrid';
+    return this.coachingType === 'in-person';
   }
 
   isInvalid(field: string): boolean {
@@ -67,26 +68,31 @@ export class ApplyComponent implements OnInit {
 
   private updateConditionalValidators(type: string) {
     const equipment = this.form.get('equipment')!;
+    const paymentPlan = this.form.get('paymentPlan')!;
     const preferredDays = this.form.get('preferredDays')!;
     const trainingLocation = this.form.get('trainingLocation')!;
 
     equipment.clearValidators();
+    paymentPlan.clearValidators();
     preferredDays.clearValidators();
     trainingLocation.clearValidators();
     equipment.setValue('');
+    paymentPlan.setValue('');
     preferredDays.setValue('');
     trainingLocation.setValue('');
 
-    if (type === 'online' || type === 'hybrid') {
+    if (type === 'twelve-week') {
       equipment.setValidators(Validators.required);
+      paymentPlan.setValidators(Validators.required);
     }
 
-    if (type === 'in-person' || type === 'hybrid') {
+    if (type === 'in-person') {
       preferredDays.setValidators(Validators.required);
       trainingLocation.setValidators(Validators.required);
     }
 
     equipment.updateValueAndValidity();
+    paymentPlan.updateValueAndValidity();
     preferredDays.updateValueAndValidity();
     trainingLocation.updateValueAndValidity();
   }

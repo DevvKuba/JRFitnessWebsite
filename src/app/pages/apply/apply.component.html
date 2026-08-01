@@ -26,9 +26,8 @@
             <label class="form-label" for="coachingType">Coaching Type <span class="form-required">*</span></label>
             <select class="form-select" [class.error]="isInvalid('coachingType')" id="coachingType" formControlName="coachingType">
               <option value="" disabled>Select a programme</option>
-              <option value="online">Online Coaching</option>
+              <option value="twelve-week">12-Week Programme</option>
               <option value="in-person">In-Person Coaching</option>
-              <option value="hybrid">Hybrid Coaching</option>
             </select>
             @if (isInvalid('coachingType')) {
               <span class="form-error">Please select a coaching type</span>
@@ -102,27 +101,40 @@
           </div>
         </div>
 
-        <!-- Conditional: Online / Hybrid -->
+        <!-- Conditional: 12-Week Programme -->
         @if (showEquipment) {
           <div class="apply__section apply__section--conditional">
-            <h2 class="apply__section-title">Training Setup</h2>
-            <div class="form-field">
-              <label class="form-label" for="equipment">Equipment Access <span class="form-required">*</span></label>
-              <select class="form-select" [class.error]="isInvalid('equipment')" id="equipment" formControlName="equipment">
-                <option value="" disabled>Select your setup</option>
-                <option value="commercial-gym">Commercial gym membership</option>
-                <option value="home-gym">Home gym (full equipment)</option>
-                <option value="minimal">Minimal equipment (dumbbells, bands, etc.)</option>
-                <option value="none">No equipment — bodyweight only</option>
-              </select>
-              @if (isInvalid('equipment')) {
-                <span class="form-error">Please select your equipment access</span>
-              }
+            <h2 class="apply__section-title">Programme Setup</h2>
+            <div class="apply__grid">
+              <div class="form-field">
+                <label class="form-label" for="equipment">Equipment Access <span class="form-required">*</span></label>
+                <select class="form-select" [class.error]="isInvalid('equipment')" id="equipment" formControlName="equipment">
+                  <option value="" disabled>Select your setup</option>
+                  <option value="commercial-gym">Commercial gym membership</option>
+                  <option value="home-gym">Home gym (full equipment)</option>
+                  <option value="minimal">Minimal equipment (dumbbells, bands, etc.)</option>
+                  <option value="none">No equipment — bodyweight only</option>
+                </select>
+                @if (isInvalid('equipment')) {
+                  <span class="form-error">Please select your equipment access</span>
+                }
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="paymentPlan">Payment Plan <span class="form-required">*</span></label>
+                <select class="form-select" [class.error]="isInvalid('paymentPlan')" id="paymentPlan" formControlName="paymentPlan">
+                  <option value="" disabled>Select a payment plan</option>
+                  <option value="upfront">Pay in full — £499</option>
+                  <option value="installments">3 monthly payments — £180/month</option>
+                </select>
+                @if (isInvalid('paymentPlan')) {
+                  <span class="form-error">Please select a payment plan</span>
+                }
+              </div>
             </div>
           </div>
         }
 
-        <!-- Conditional: In-Person / Hybrid -->
+        <!-- Conditional: In-Person -->
         @if (showLocationDays) {
           <div class="apply__section apply__section--conditional">
             <h2 class="apply__section-title">Scheduling & Location</h2>

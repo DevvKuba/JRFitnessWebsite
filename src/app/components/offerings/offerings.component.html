@@ -15,25 +15,26 @@
 
       <div class="offerings__card">
         <div class="offerings__card-header">
-          <h3 class="offerings__card-title">Online Coaching</h3>
+          <h3 class="offerings__card-title">12-Week Programme</h3>
           <p class="offerings__card-subtitle">
-            Remote coaching built around real accountability — train on your schedule, wherever you are.
+            Helping busy professionals start and sustain habits to stay in the best shape of their life —
+            without strict dieting or endless hours in the gym.
           </p>
         </div>
         <div class="offerings__card-pricing">
-          <span class="offerings__card-price">£180</span>
-          <span class="offerings__card-price-period">/month</span>
+          <span class="offerings__card-price">£499</span>
+          <span class="offerings__card-price-period">one-time</span>
         </div>
         <ul class="offerings__card-features">
           <li>Step Up accountability — private group & leaderboard</li>
           <li>Custom training plan via Hevy app</li>
           <li>Weekly check-ins & plan adjustments</li>
-          <li>Nutrition guidance</li>
+          <li>Sustainable nutrition guidance — no strict dieting</li>
           <li>Video form reviews</li>
           <li>Messaging support between check-ins</li>
         </ul>
-        <p class="offerings__card-pricing-note">Prefer weekly? Pay £45/week instead.</p>
-        <a class="btn btn--outline" [routerLink]="['/apply']" [queryParams]="{type: 'online'}">Apply Now</a>
+        <p class="offerings__card-pricing-note">Or 3 monthly payments of £180</p>
+        <a class="btn btn--outline" [routerLink]="['/apply']" [queryParams]="{type: 'twelve-week'}">Apply Now</a>
       </div>
 
       <div class="offerings__card offerings__card--featured">
@@ -57,28 +58,6 @@
         </ul>
         <p class="offerings__card-pricing-note">Pay per session — no long-term commitment</p>
         <a class="btn btn--primary" [routerLink]="['/apply']" [queryParams]="{type: 'in-person'}">Apply Now</a>
-      </div>
-
-      <div class="offerings__card">
-        <div class="offerings__card-header">
-          <h3 class="offerings__card-title">Hybrid Coaching</h3>
-          <p class="offerings__card-subtitle">
-            Online coaching plus one in-person session a month — accountability with hands-on support.
-          </p>
-        </div>
-        <div class="offerings__card-pricing">
-          <span class="offerings__card-price">£220</span>
-          <span class="offerings__card-price-period">/month</span>
-        </div>
-        <ul class="offerings__card-features">
-          <li>Everything in Online Coaching</li>
-          <li>One in-person 1:1 session per month</li>
-          <li>Form audit & technique reset</li>
-          <li>Priority messaging support</li>
-          <li>In-person progress assessments</li>
-        </ul>
-        <p class="offerings__card-pricing-note">Prefer weekly? Pay £55/week instead.</p>
-        <a class="btn btn--outline" [routerLink]="['/apply']" [queryParams]="{type: 'hybrid'}">Apply Now</a>
       </div>
 
     </div>
