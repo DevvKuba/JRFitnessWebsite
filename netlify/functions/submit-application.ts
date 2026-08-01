@@ -65,7 +65,7 @@ async function addToBrevoList(email: string, listId: number): Promise<void> {
 }
 
 const COACHING_TYPE_LABELS: Record<string, string> = {
-  'twelve-week': '12-Week Programme',
+  'twelve-week': '12-Week Online Coaching Programme',
   'in-person': 'In-Person Coaching',
 };
 

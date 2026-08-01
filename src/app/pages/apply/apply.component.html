@@ -26,7 +26,7 @@
             <label class="form-label" for="coachingType">Coaching Type <span class="form-required">*</span></label>
             <select class="form-select" [class.error]="isInvalid('coachingType')" id="coachingType" formControlName="coachingType">
               <option value="" disabled>Select a programme</option>
-              <option value="twelve-week">12-Week Programme</option>
+              <option value="twelve-week">12-Week Online Coaching Programme</option>
               <option value="in-person">In-Person Coaching</option>
             </select>
             @if (isInvalid('coachingType')) {
@@ -101,7 +101,7 @@
           </div>
         </div>
 
-        <!-- Conditional: 12-Week Programme -->
+        <!-- Conditional: 12-Week Online Coaching Programme -->
         @if (showEquipment) {
           <div class="apply__section apply__section--conditional">
             <h2 class="apply__section-title">Programme Setup</h2>
