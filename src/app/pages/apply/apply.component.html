@@ -138,26 +138,47 @@
         @if (showLocationDays) {
           <div class="apply__section apply__section--conditional">
             <h2 class="apply__section-title">Scheduling & Location</h2>
-            <div class="apply__grid">
-              <div class="form-field">
-                <label class="form-label" for="preferredDays">Preferred Training Days <span class="form-required">*</span></label>
-                <select class="form-select" [class.error]="isInvalid('preferredDays')" id="preferredDays" formControlName="preferredDays">
-                  <option value="" disabled>Select your preference</option>
-                  <option value="weekdays">Weekdays</option>
-                  <option value="weekends">Weekends</option>
-                  <option value="flexible">Flexible</option>
-                </select>
-                @if (isInvalid('preferredDays')) {
-                  <span class="form-error">Please select your preferred training days</span>
+
+            <div class="form-field">
+              <label class="form-label">Preferred Studio Times <span class="form-required">*</span></label>
+              <p class="apply__slots-hint">
+                Pick any that work for you — I schedule sessions directly once your application is
+                reviewed, so exact times aren't booked here.
+              </p>
+              <div class="apply__slots">
+                @for (day of studioAvailability; track day.day) {
+                  <div class="apply__slot-day">
+                    <div class="apply__slot-day-header">
+                      <span class="apply__slot-day-name">{{ day.label }}</span>
+                      <span class="apply__slot-day-hours">{{ day.hours }}</span>
+                    </div>
+                    <div class="apply__slot-chips">
+                      @for (slot of day.slots; track slot.key) {
+                        <button
+                          type="button"
+                          class="apply__slot-chip"
+                          [class.apply__slot-chip--active]="isSlotSelected(slot.key)"
+                          (click)="toggleSlot(slot.key)"
+                        >
+                          <span class="apply__slot-chip-label">{{ slot.label }}</span>
+                          <span class="apply__slot-chip-range">{{ slot.range }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
                 }
               </div>
-              <div class="form-field">
-                <label class="form-label" for="trainingLocation">Your General Location <span class="form-required">*</span></label>
-                <input class="form-input" [class.error]="isInvalid('trainingLocation')" type="text" id="trainingLocation" formControlName="trainingLocation" placeholder="e.g. Colliers Wood, London" />
-                @if (isInvalid('trainingLocation')) {
-                  <span class="form-error">Please enter your general location</span>
-                }
-              </div>
+              @if (isInvalid('preferredSlots')) {
+                <span class="form-error">Please select at least one preferred time slot</span>
+              }
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="trainingLocation">Your General Location <span class="form-required">*</span></label>
+              <input class="form-input" [class.error]="isInvalid('trainingLocation')" type="text" id="trainingLocation" formControlName="trainingLocation" placeholder="e.g. Colliers Wood, London" />
+              @if (isInvalid('trainingLocation')) {
+                <span class="form-error">Please enter your general location</span>
+              }
             </div>
           </div>
         }

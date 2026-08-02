@@ -95,10 +95,19 @@ const EQUIPMENT_LABELS: Record<string, string> = {
   none: 'No Equipment',
 };
 
-const PREFERRED_DAYS_LABELS: Record<string, string> = {
-  weekdays: 'Weekdays',
-  weekends: 'Weekends',
-  flexible: 'Flexible',
+// Mirrors the studioAvailability data in apply.component.ts — update both
+// together when studio hours change.
+const SLOT_LABELS: Record<string, string> = {
+  'wednesday-afternoon': 'Wednesday Afternoon (14:00–17:00)',
+  'wednesday-evening': 'Wednesday Evening (17:00–22:00)',
+  'friday-afternoon': 'Friday Afternoon (12:00–17:00)',
+  'friday-evening': 'Friday Evening (17:00–22:00)',
+  'saturday-morning': 'Saturday Morning (07:00–12:00)',
+  'saturday-afternoon': 'Saturday Afternoon (12:00–17:00)',
+  'saturday-evening': 'Saturday Evening (17:00–20:00)',
+  'sunday-morning': 'Sunday Morning (07:00–12:00)',
+  'sunday-afternoon': 'Sunday Afternoon (12:00–17:00)',
+  'sunday-evening': 'Sunday Evening (17:00–20:00)',
 };
 
 const REFERRAL_LABELS: Record<string, string> = {
@@ -120,7 +129,7 @@ interface ApplicationPayload {
   referral: string;
   equipment?: string;
   paymentPlan?: string;
-  preferredDays?: string;
+  preferredSlots?: string[];
   trainingLocation?: string;
 }
 
@@ -231,8 +240,14 @@ export const handler: Handler = async (event) => {
         ...(data.paymentPlan
           ? { 'Payment Plan': { select: { name: PAYMENT_PLAN_LABELS[data.paymentPlan] ?? data.paymentPlan } } }
           : {}),
-        ...(data.preferredDays
-          ? { 'Preferred Days': { select: { name: PREFERRED_DAYS_LABELS[data.preferredDays] ?? data.preferredDays } } }
+        ...(data.preferredSlots?.length
+          ? {
+              'Preferred Time Slots': {
+                rich_text: [
+                  { text: { content: data.preferredSlots.map(k => SLOT_LABELS[k] ?? k).join(', ') } },
+                ],
+              },
+            }
           : {}),
         ...(data.trainingLocation
           ? { 'Training Location': { rich_text: [{ text: { content: data.trainingLocation } }] } }
@@ -264,7 +279,9 @@ export const handler: Handler = async (event) => {
     if (data.injuries) summaryLines.push(`Injuries / Limitations: ${data.injuries}`);
     if (data.equipment) summaryLines.push(`Equipment Access: ${EQUIPMENT_LABELS[data.equipment] ?? data.equipment}`);
     if (data.paymentPlan) summaryLines.push(`Payment Plan: ${PAYMENT_PLAN_LABELS[data.paymentPlan] ?? data.paymentPlan}`);
-    if (data.preferredDays) summaryLines.push(`Preferred Days: ${PREFERRED_DAYS_LABELS[data.preferredDays] ?? data.preferredDays}`);
+    if (data.preferredSlots?.length) {
+      summaryLines.push(`Preferred Time Slots: ${data.preferredSlots.map(k => SLOT_LABELS[k] ?? k).join(', ')}`);
+    }
     if (data.trainingLocation) summaryLines.push(`Training Location: ${data.trainingLocation}`);
 
     summaryLines.push(`Referral Source: ${REFERRAL_LABELS[data.referral] ?? data.referral}`);

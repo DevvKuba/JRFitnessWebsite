@@ -1,7 +1,31 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  FormControl,
+  ValidationErrors,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
+interface StudioSlot {
+  key: string;
+  label: string;
+  range: string;
+}
+
+interface StudioDay {
+  day: string;
+  label: string;
+  hours: string;
+  slots: StudioSlot[];
+}
+
+function requireNonEmptySelection(control: AbstractControl): ValidationErrors | null {
+  return Array.isArray(control.value) && control.value.length > 0 ? null : { required: true };
+}
 
 @Component({
   selector: 'app-apply',
@@ -17,6 +41,50 @@ export class ApplyComponent implements OnInit {
   submitting = signal(false);
   hasError = signal(false);
 
+  // Studio hours as of August 2026 — kept as open as possible for the launch
+  // month. Update this array directly when hours narrow down (e.g. from
+  // September once full-time work starts).
+  readonly studioAvailability: StudioDay[] = [
+    {
+      day: 'wednesday',
+      label: 'Wednesday',
+      hours: '14:00 – 22:00',
+      slots: [
+        { key: 'wednesday-afternoon', label: 'Afternoon', range: '14:00 – 17:00' },
+        { key: 'wednesday-evening', label: 'Evening', range: '17:00 – 22:00' },
+      ],
+    },
+    {
+      day: 'friday',
+      label: 'Friday',
+      hours: '12:00 – 22:00',
+      slots: [
+        { key: 'friday-afternoon', label: 'Afternoon', range: '12:00 – 17:00' },
+        { key: 'friday-evening', label: 'Evening', range: '17:00 – 22:00' },
+      ],
+    },
+    {
+      day: 'saturday',
+      label: 'Saturday',
+      hours: '07:00 – 20:00',
+      slots: [
+        { key: 'saturday-morning', label: 'Morning', range: '07:00 – 12:00' },
+        { key: 'saturday-afternoon', label: 'Afternoon', range: '12:00 – 17:00' },
+        { key: 'saturday-evening', label: 'Evening', range: '17:00 – 20:00' },
+      ],
+    },
+    {
+      day: 'sunday',
+      label: 'Sunday',
+      hours: '07:00 – 20:00',
+      slots: [
+        { key: 'sunday-morning', label: 'Morning', range: '07:00 – 12:00' },
+        { key: 'sunday-afternoon', label: 'Afternoon', range: '12:00 – 17:00' },
+        { key: 'sunday-evening', label: 'Evening', range: '17:00 – 20:00' },
+      ],
+    },
+  ];
+
   form = new FormGroup({
     coachingType: new FormControl('', Validators.required),
     fullName: new FormControl('', Validators.required),
@@ -28,7 +96,7 @@ export class ApplyComponent implements OnInit {
     referral: new FormControl('', Validators.required),
     equipment: new FormControl(''),
     paymentPlan: new FormControl(''),
-    preferredDays: new FormControl(''),
+    preferredSlots: new FormControl<string[]>([]),
     trainingLocation: new FormControl(''),
   });
 
@@ -66,19 +134,31 @@ export class ApplyComponent implements OnInit {
     return control.invalid && control.touched;
   }
 
+  isSlotSelected(key: string): boolean {
+    return (this.form.get('preferredSlots')!.value ?? []).includes(key);
+  }
+
+  toggleSlot(key: string): void {
+    const control = this.form.get('preferredSlots')!;
+    const current: string[] = control.value ?? [];
+    const next = current.includes(key) ? current.filter(k => k !== key) : [...current, key];
+    control.setValue(next);
+    control.markAsTouched();
+  }
+
   private updateConditionalValidators(type: string) {
     const equipment = this.form.get('equipment')!;
     const paymentPlan = this.form.get('paymentPlan')!;
-    const preferredDays = this.form.get('preferredDays')!;
+    const preferredSlots = this.form.get('preferredSlots')!;
     const trainingLocation = this.form.get('trainingLocation')!;
 
     equipment.clearValidators();
     paymentPlan.clearValidators();
-    preferredDays.clearValidators();
+    preferredSlots.clearValidators();
     trainingLocation.clearValidators();
     equipment.setValue('');
     paymentPlan.setValue('');
-    preferredDays.setValue('');
+    preferredSlots.setValue([]);
     trainingLocation.setValue('');
 
     if (type === 'twelve-week') {
@@ -87,13 +167,13 @@ export class ApplyComponent implements OnInit {
     }
 
     if (type === 'in-person') {
-      preferredDays.setValidators(Validators.required);
+      preferredSlots.setValidators(requireNonEmptySelection);
       trainingLocation.setValidators(Validators.required);
     }
 
     equipment.updateValueAndValidity();
     paymentPlan.updateValueAndValidity();
-    preferredDays.updateValueAndValidity();
+    preferredSlots.updateValueAndValidity();
     trainingLocation.updateValueAndValidity();
   }
 

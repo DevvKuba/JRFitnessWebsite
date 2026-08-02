@@ -281,6 +281,98 @@
   color: #dc2626;
 }
 
+.apply__slots-hint {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-on-surface-variant);
+  margin-top: -2px;
+}
+
+.apply__slots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+}
+
+.apply__slot-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  background-color: var(--color-background);
+  border: 1.5px solid var(--color-outline);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+}
+
+.apply__slot-day-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.apply__slot-day-name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-background);
+}
+
+.apply__slot-day-hours {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
+.apply__slot-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.apply__slot-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--color-outline);
+  border-radius: var(--radius-full);
+  background-color: var(--color-background);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--color-primary-light);
+  }
+
+  &--active {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface);
+
+    .apply__slot-chip-label {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.apply__slot-chip-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-on-background);
+}
+
+.apply__slot-chip-range {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
 @media (max-width: 768px) {
   .apply {
     &__header {
@@ -302,5 +394,9 @@
     &__success-headline {
       font-size: 36px;
     }
+  }
+
+  .apply__slots {
+    grid-template-columns: 1fr;
   }
 }
